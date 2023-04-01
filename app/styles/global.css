@@ -73,7 +73,7 @@ h6 {
 
 .container {
   --gutter: 16px;
-  width: 1024px;
+  width: 1440px;
   max-width: calc(100% - var(--gutter) * 2);
   margin-right: auto;
   margin-left: auto;

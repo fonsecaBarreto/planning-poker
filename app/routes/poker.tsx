@@ -65,36 +65,27 @@ export default function Poker() {
               ))}
             </ul>
           </div>
-        </aside>
-
-        <div>
-          <h3> Vote aqui</h3>
-          <nav className="cards">
-            <button>1 </button>
-            <button>2 </button>
-            <button>2 </button>
-            <button>2 </button>
-            <button>2 </button>
-            <button>2 </button>
-          </nav>
-
-          <h3> Reusltado: </h3>
-
-          <h3> {result} </h3>
 
           <h3> Chat </h3>
           <section className="chat-container">
+            <MessageContainer
+              socketId={socketId}
+              message={{ payload: "asdasddwewqehqwdhsaksajaskdajk dhjaksdhkjasdjhasjkdsakjdaksjas" }}
+            />
+            {orderedMesssage.map((msg: any) => (
+              <MessageContainer socketId={socketId} message={msg} />
+            ))}
             <Form disabled={isSubmitting} onSubmit={handleSendMessage}>
               <label>
                 <input name="message" placeholder=" Sua Mensagem aqui" />
                 <button type="submit">Enviar</button>
               </label>
             </Form>
-
-            {orderedMesssage.reverse().map((msg: any) => (
-              <MessageContainer socketId={socketId} message={msg} />
-            ))}
           </section>
+        </aside>
+
+        <div>
+          <h3> Criar uma nova tarefa</h3>
         </div>
       </main>
     </div>
@@ -113,3 +104,16 @@ export const links: LinksFunction = () => {
     },
   ];
 };
+
+{
+  /* <nav className="cards">
+<button>1 </button>
+<button>2 </button>
+<button>2 </button>
+<button>2 </button>
+<button>2 </button>
+<button>2 </button>
+</nav>
+
+<h3> Reusltado: </h3> */
+}
