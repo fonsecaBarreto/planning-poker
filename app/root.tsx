@@ -6,6 +6,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import { WsProvider } from "./contexts/WebSocket";
 
 export default function App() {
   return (
@@ -17,7 +18,9 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        <WsProvider>
+          <Outlet />
+        </WsProvider>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
