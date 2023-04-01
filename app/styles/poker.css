@@ -14,3 +14,9 @@
 .poker-layout > header > form{
    width: 100px
 }
+
+.message-container{
+    border-radius: 12px;
+    padding: 12px;
+    background-color: rgb(47, 255, 102);
+}

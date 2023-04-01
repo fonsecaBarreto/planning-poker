@@ -3,25 +3,40 @@ const {  MakeApp } = require("./app");
 const PORT = process.env.PORT || 3000;
 const httpServer = MakeApp();
 
+
+const SocketResponse = (socket, payload) =>{
+  return ({
+    from: socket.id, 
+    payload
+  })
+
+}
 const io = new Server(httpServer);
 var sockets = [];
 io.on("connection", (socket) => {
   sockets.push({socketId: socket.id})
-  console.log('Novo conexão', sockets.length);
-  io.emit("update_clients", { id: socket.id, payload: sockets });
- /*  
+  console.log('Novo conexão');
+  io.emit("UPDATE_USERS", SocketResponse(socket, sockets));
+
   socket.on("event", (data) => {
-    socket.broadcast.emit("event", { id: socket.id, payload: data });
-  }); */
+    const { action, payload  } = data;
+    switch(action){
+      case 'MESSAGE':
+        console.log("Mensagem recebid")
+        io.emit("MESSAGE", SocketResponse(socket, payload));
+      break;
+      default: break;
+    }
+  });
 
   socket.on("user_connected", ({ user}) => {
-    sockets.splice( sockets.findIndex(s=>(s.socketId == socket.id)), 1, {  socketId: socket.id, user })
-    io.emit("update_clients", { id: socket.id, payload: sockets });
+    sockets.splice( sockets.findIndex(s=>(s.socketId == socket.id)), 1, { socketId: socket.id, user })
+    io.emit("UPDATE_USERS", SocketResponse(socket, sockets));
   });
 
   socket.on("disconnect", (reason) => {
     sockets= sockets.filter(s=>(s.socketId != socket.id))
-    io.emit("update_clients", { id: socket.id, payload: sockets });
+    io.emit("UPDATE_USERS",  SocketResponse(socket, sockets));
   });
 });
 

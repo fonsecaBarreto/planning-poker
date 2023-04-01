@@ -7,6 +7,7 @@ export let wsContext = createContext(
   {} as {
     socket: Socket<DefaultEventsMap, DefaultEventsMap> | null;
     events: string[];
+    messages: any;
     clients: any[];
     socketId: string;
   }
@@ -17,6 +18,7 @@ export function WsProvider({ children }: { children: React.ReactNode }): any {
   const [ socketId, setSocketId ]= useState("");
   const [ clients, setClients ] = useState([])
   const [events, setEvents] = useState<string[]>([]);
+  const [messages, setMessages ] = useState<string[]>([]);
   let [socket, setSocket] = useState<Socket<
     DefaultEventsMap,
     DefaultEventsMap
@@ -32,13 +34,15 @@ export function WsProvider({ children }: { children: React.ReactNode }): any {
 
   useEffect(() => {
     if (!socket) return;
-    socket.on("update_clients", (data) => {
-      setSocketId(data.id);
+    socket.on('connect', () => {
+      setSocketId(socket?.id + "");
+   });
+    socket.on("UPDATE_USERS", (data) => {
       setClients(data.payload);
     });
-    socket.on("event", (data) => {
-      console.log("eventos recebido -> ", data);
-      setEvents((prev) => [...prev, data]);
+    socket.on("MESSAGE", (data) => {
+      console.log("mensagem recebida  de", data.from);
+      setMessages((prev) => [...prev, data]);
     });
   }, [socket]);
 
@@ -47,9 +51,10 @@ export function WsProvider({ children }: { children: React.ReactNode }): any {
       socket,
       events,
       clients,
-      socketId
+      socketId,
+      messages,
     }),
-    [socket, events, clients, socketId]
+    [socket, events, clients, socketId, messages]
   );
 
 
