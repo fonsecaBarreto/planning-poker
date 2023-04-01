@@ -1,47 +1,39 @@
-import type { V2_MetaFunction } from "@remix-run/node";
-import { Form, useNavigation, useSearchParams } from "@remix-run/react";
-import { useContext, useState } from "react";
-import { wsContext } from "~/contexts/WebSocket";
-export const meta: V2_MetaFunction = () => {
-  return [{ title: "New Remix App" }];
-};
+import type { LinksFunction, V2_MetaFunction } from "@remix-run/node";
+import { Link } from "@remix-run/react";
+import indexStylesUrl from "~/styles/index.css";
 
 export default function Index() {
-  const {socket, events} = useContext(wsContext);
-  const [ message, setMessage ] = useState("");
-  const navigation = useNavigation();
-
-  console.log("socket -> ",socket)
-
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
-    socket?.emit("message", message);
-    setMessage("");
-  };
-
-  const isSubmitting = navigation.state === "submitting";
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
-      <h1>Bem vindo</h1>
-      <div>
-        <Form disabled={isSubmitting} onSubmit={handleSubmit}>
-          <input
-            value={message}
-            onInput={(e: any) => setMessage(e.target.value)}
-            name="message"
-            placeholder=" Sua Mensagem aqui"
-          />
-          <button type="submit">
-            Enviar
-          </button>
-        </Form>
-
+    <div className="index-layout">
+      <h1>
+        LolDesign©
+        <span>
+          Planning <br /> p&#10084;ker
+        </span>
+      </h1>
+      <nav>
+        <br />
         <ul>
-          {events.map((message) => (
-            <li> {message}</li>
-          ))}
+          <li>
+            <Link to="poker" className="button">
+              Iniciar
+            </Link>
+          </li>
         </ul>
-      </div>
+      </nav>
     </div>
   );
 }
+
+export const meta: V2_MetaFunction = () => {
+  return [{ title: "Planning poker" }];
+};
+
+export const links: LinksFunction = () => {
+  return [
+    {
+      rel: "stylesheet",
+      href: indexStylesUrl,
+    },
+  ];
+};
