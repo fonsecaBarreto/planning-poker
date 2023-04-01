@@ -4,20 +4,23 @@ const PORT = process.env.PORT || 3000;
 const httpServer = MakeApp();
 
 const io = new Server(httpServer);
+var sockets = [];
 io.on("connection", (socket) => {
+  sockets.push(socket.id)
+  console.log('Novo conexão', sockets.length);
+  io.emit("update_clients", { id: socket.id, payload: sockets });
+ /*  
+  socket.on("event", (data) => {
+    socket.broadcast.emit("event", { id: socket.id, payload: data });
+  }); */
 
-  console.log("novo client connected -> ", socket.id, );
-
-  socket.emit("event", "connected!");
-
-  // and I start listening for the event `something`
-  socket.on("message", (data) => {
-    // log the data together with the socket.id who send it
-    console.log(socket.id, data);
-    // and emeit the event again with the message pong
-    io.emit("event", data);
+  socket.on("disconnect", (reason) => {
+    sockets= sockets.filter(s=>(s != socket.id))
+    io.emit("update_clients", { id: socket.id, payload: sockets });
   });
 });
+
+
 
 // instead of using `app.listen` we use `httpServer.listen`
 httpServer.listen(PORT, () => {

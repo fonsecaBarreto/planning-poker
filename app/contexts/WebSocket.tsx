@@ -6,10 +6,12 @@ import { connect } from "~/ws.client";
 export let wsContext = createContext<{
   socket: Socket<DefaultEventsMap, DefaultEventsMap> | null;
   events: string[];
-}>({ events: [], socket: null });
+  clients: any[],
+}>({ events: [], clients:[], socket: null });
 const { Provider } = wsContext
 
 export function WsProvider({ children }: { children: React.ReactNode }): any {
+  const [ clients, setClients ] = useState([])
   const [events, setEvents] = useState<string[]>([]);
   let [socket, setSocket] = useState<Socket<
     DefaultEventsMap,
@@ -26,6 +28,9 @@ export function WsProvider({ children }: { children: React.ReactNode }): any {
 
   useEffect(() => {
     if (!socket) return;
+    socket.on("update_clients", (data) => {
+      setClients(data.payload);
+    });
     socket.on("event", (data) => {
       console.log("eventos recebido -> ", data);
       setEvents((prev) => [...prev, data]);
@@ -36,8 +41,9 @@ export function WsProvider({ children }: { children: React.ReactNode }): any {
     () => ({
       socket,
       events,
+      clients
     }),
-    [socket, events]
+    [socket, events, clients]
   );
 
 

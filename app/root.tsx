@@ -5,10 +5,22 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
 import { WsProvider } from "./contexts/WebSocket";
+import { UserProvider } from "./contexts/User";
+import { json, LinksFunction, LoaderArgs } from "@remix-run/node";
+import globalStylesUrl from "./styles/global.css";
+
+
+export const loader = async ({ params }: LoaderArgs) => {
+  return json({
+    tasks: "teste laoder ",
+  });
+};
 
 export default function App() {
+  const data = useLoaderData<typeof loader>();
   return (
     <html lang="en">
       <head>
@@ -18,9 +30,11 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <WsProvider>
-          <Outlet />
-        </WsProvider>
+        <UserProvider>
+          <WsProvider>
+            <Outlet />
+          </WsProvider>
+        </UserProvider>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
@@ -28,3 +42,13 @@ export default function App() {
     </html>
   );
 }
+
+
+export const links: LinksFunction = () => {
+  return [
+    {
+      rel: "stylesheet",
+      href: globalStylesUrl,
+    }
+  ];
+};
