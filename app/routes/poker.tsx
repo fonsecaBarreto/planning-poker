@@ -6,7 +6,7 @@ import {
 } from "@remix-run/node";
 import { Form, Link, useLoaderData, useNavigation } from "@remix-run/react";
 import { requireUser } from "~/session.server";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { wsContext } from "~/contexts/WebSocket";
 import indexStylesUrl from "~/styles/poker.css";
 import { MessageContainer } from "~/components/chat/messageContainer";
@@ -17,7 +17,7 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 export default function Poker() {
-  const [ result, setResult ] = useState(0)
+  const [result, setResult] = useState(0);
   const { socket, socketId, clients, messages } = useContext(wsContext);
   const { user } = useLoaderData<typeof loader>();
   const navigation = useNavigation();
@@ -28,66 +28,74 @@ export default function Poker() {
 
   const handleSendMessage = (e: any) => {
     e.preventDefault();
-    const message = e.target['message'].value
+    const message = e.target["message"].value;
     socket?.emit("event", { action: "MESSAGE", payload: message });
-  }
+  };
+
+  const orderedMesssage = useMemo(() => {
+    const ordered = messages.reverse();
+    return ordered;
+  }, [messages]);
 
   return (
-    <div className="poker-layout container">
-      <header className="flex items-center justify-between bg-slate-800 p-4 text-white">
-        <Link to="/"> Voltar </Link>
-        <p>{user.nickName}</p>
-        <Form action="/logout" method="post">
-          <button
-            type="submit"
-            className="rounded bg-slate-600 px-4 py-2 text-blue-100 hover:bg-blue-500 active:bg-blue-600"
-          >
-            Logout
-          </button>
-        </Form>
+    <div className="poker-layout ">
+      <header>
+        <div className="container">
+          <Link to="/"> Voltar </Link>
+          <p>{user.nickName}</p>
+          <Form action="/logout" method="post">
+            <button
+              type="submit"
+              className="rounded bg-slate-600 px-4 py-2 text-blue-100 hover:bg-blue-500 active:bg-blue-600"
+            >
+              Logout
+            </button>
+          </Form>
+        </div>
       </header>
 
-      <main>
-        <h1>Lista de usuarios:</h1>
-        <ul>
-          {clients.map((client) => (
-            <li>
-              {client.socketId} - {client?.user?.nickName ?? "Anonimo"}
-            </li>
-          ))}
-        </ul>
+      <main className="container">
+        <aside>
+          <div className="users-list">
+            <h3>Usuarios:</h3>
+            <ul>
+              {/* &#128308;  */}
+              {clients.map((client) => (
+                <li> &#128994; {client?.user?.nickName ?? "Anonimo"}</li>
+              ))}
+            </ul>
+          </div>
+        </aside>
 
- {/*        <h1> Vote aqui</h1>
-        <ul>
-          <li>
+        <div>
+          <h3> Vote aqui</h3>
+          <nav className="cards">
             <button>1 </button>
-          </li>
-          <li>
             <button>2 </button>
-          </li>
-        </ul>
+            <button>2 </button>
+            <button>2 </button>
+            <button>2 </button>
+            <button>2 </button>
+          </nav>
 
-        <h1> Reusltado: </h1>
+          <h3> Reusltado: </h3>
 
-        <h3> {result} </h3> */}
+          <h3> {result} </h3>
 
-        <h1> Chat </h1>
-        <section>
-          <span> Aqui deve ter um chat maneiro </span>
-          <Form disabled={isSubmitting} onSubmit={handleSendMessage}>
-            <input
-              name="message"
-              placeholder=" Sua Mensagem aqui"
-            />
-            <button type="submit">Enviar</button>
-          </Form>
+          <h3> Chat </h3>
+          <section className="chat-container">
+            <Form disabled={isSubmitting} onSubmit={handleSendMessage}>
+              <label>
+                <input name="message" placeholder=" Sua Mensagem aqui" />
+                <button type="submit">Enviar</button>
+              </label>
+            </Form>
 
-          {messages.map((msg: any) => (
-            <li>
+            {orderedMesssage.reverse().map((msg: any) => (
               <MessageContainer socketId={socketId} message={msg} />
-            </li>
-          ))}
-        </section>
+            ))}
+          </section>
+        </div>
       </main>
     </div>
   );
