@@ -10,10 +10,39 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
   id         String   @id @default(uuid())
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   nickName   String
+
+  punctuations TaskPunctuations[] @relation("punctuation_user")
+
+  @@map("users")
+}
+
+model Task {
+  id           String   @id @default(uuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  description  String
+  punctuation  Float
+
+  punctuations TaskPunctuations[] @relation("punctuation_task")
+
+  @@map("tasks")
+}
+
+model TaskPunctuations {
+  taskId         String    @default(uuid())
+  userId         String    @default(uuid())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  value   Float
+
+  task  Task @relation("punctuation_task", fields: [taskId], references: [id], onDelete: Cascade)
+  user  User @relation("punctuation_user", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([taskId, userId])
+  @@map("Tasks_punctuations")
 }
