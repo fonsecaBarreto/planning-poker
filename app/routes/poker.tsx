@@ -1,32 +1,36 @@
-import { json, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
-import { Form, Link, useLoaderData, useNavigation } from "@remix-run/react";
+import {
+  json,
+  LinksFunction,
+  LoaderArgs,
+  V2_MetaFunction,
+} from "@remix-run/node";
+import { Form, Link, useLoaderData } from "@remix-run/react";
 import { requireUser } from "~/session.server";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { wsContext } from "~/contexts/WebSocket";
+import indexStylesUrl from "~/styles/poker.css";
 
 export async function loader({ request }: LoaderArgs) {
   const user = await requireUser(request);
   return json({ user });
 }
 
-export default function Outra() {
+export default function Poker() {
+  const [ result, setResult ] = useState(0)
+  const { socket, clients } = useContext(wsContext);
   const { user } = useLoaderData<typeof loader>();
-  const { socket, events, clients } = useContext(wsContext);
-  const [message, setMessage] = useState("");
-  const navigation = useNavigation();
 
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
-    /*     socket?.emit("event", { message });
-    setMessage(""); */
-  };
-  const isSubmitting = navigation.state === "submitting";
+  useEffect(() => {
+    socket?.emit("user_connected", { user });
+  }, [user, socket]);
+
+  /*   const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting"; */
+
   return (
-    <div>
+    <div className="poker-layout container">
       <header className="flex items-center justify-between bg-slate-800 p-4 text-white">
-        <h1 className="text-3xl font-bold">
-          <Link to=".">Notes</Link>
-        </h1>
+        <Link to="/"> Voltar </Link>
         <p>{user.nickName}</p>
         <Form action="/logout" method="post">
           <button
@@ -38,11 +42,40 @@ export default function Outra() {
         </Form>
       </header>
 
-      <h1>Bem vindo</h1>
-      <Link to="/"> home</Link>
-      {JSON.stringify(clients)}
+      <main>
+        <h1>Lista de usuarios:</h1>
+        <ul>
+          {clients.map((client) => (
+            <li>
+              {client.socketId} - {client?.user?.nickName ?? "Anonimo"}
+            </li>
+          ))}
+        </ul>
+
+        <h1> Vote aqui</h1>
+        <ul>
+          <li>
+            <button>1 </button>
+          </li>
+          <li>
+            <button>2 </button>
+          </li>
+          <li>
+            <button>3 </button>
+          </li>
+          <li>
+            <button>4 </button>
+          </li>
+        </ul>
+
+
+        <h1> Reusltado: </h1>
+
+        <h3> { result } </h3>
+      </main>
+
       <div>
-        <Form disabled={isSubmitting} onSubmit={handleSubmit}>
+        {/* <Form disabled={isSubmitting} onSubmit={handleSubmit}>
           <input
             value={message}
             onInput={(e: any) => setMessage(e.target.value)}
@@ -52,16 +85,21 @@ export default function Outra() {
           <button type="submit">Enviar</button>
         </Form>
 
-        <ul>
-          {events.map((message) => (
-            <li> {message}</li>
-          ))}
-        </ul>
+        */}
       </div>
     </div>
   );
 }
 
 export const meta: V2_MetaFunction = () => {
-  return [{ title: "Outra" }];
+  return [{ title: "Poker Olanning" }];
+};
+
+export const links: LinksFunction = () => {
+  return [
+    {
+      rel: "stylesheet",
+      href: indexStylesUrl,
+    },
+  ];
 };

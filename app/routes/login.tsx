@@ -14,6 +14,7 @@ export async function action({ request }: ActionArgs) {
       { status: 400 }
     );
   }
+
   const user = await createUser({ nickName });
   return createUserSession({
     request,
@@ -27,7 +28,10 @@ export default function IndexLogin() {
     <div className="index-layout">
       <>
         <Form className="login-form" method="post">
-          <input name="nickName" placeholder="Seu nome aqui" />
+          <label>
+            Apelido:
+            <input name="nickName" placeholder="Seu nome aqui" />
+          </label>
           <button type="submit">Enviar</button>
         </Form>
         <Link to="/">Votlar</Link>

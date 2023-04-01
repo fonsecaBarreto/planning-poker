@@ -1,0 +1,16 @@
+.poker-layout{
+
+}
+
+.poker-layout > header{
+    border: solid 2px red;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.poker-layout > header > form{
+   width: 100px
+}

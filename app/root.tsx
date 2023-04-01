@@ -12,15 +12,7 @@ import { UserProvider } from "./contexts/User";
 import { json, LinksFunction, LoaderArgs } from "@remix-run/node";
 import globalStylesUrl from "./styles/global.css";
 
-
-export const loader = async ({ params }: LoaderArgs) => {
-  return json({
-    tasks: "teste laoder ",
-  });
-};
-
 export default function App() {
-  const data = useLoaderData<typeof loader>();
   return (
     <html lang="en">
       <head>

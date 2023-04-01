@@ -6,7 +6,7 @@ const httpServer = MakeApp();
 const io = new Server(httpServer);
 var sockets = [];
 io.on("connection", (socket) => {
-  sockets.push(socket.id)
+  sockets.push({socketId: socket.id})
   console.log('Novo conexão', sockets.length);
   io.emit("update_clients", { id: socket.id, payload: sockets });
  /*  
@@ -14,8 +14,13 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("event", { id: socket.id, payload: data });
   }); */
 
+  socket.on("user_connected", ({ user}) => {
+    sockets.splice( sockets.findIndex(s=>(s.socketId == socket.id)), 1, {  socketId: socket.id, user })
+    io.emit("update_clients", { id: socket.id, payload: sockets });
+  });
+
   socket.on("disconnect", (reason) => {
-    sockets= sockets.filter(s=>(s != socket.id))
+    sockets= sockets.filter(s=>(s.socketId != socket.id))
     io.emit("update_clients", { id: socket.id, payload: sockets });
   });
 });

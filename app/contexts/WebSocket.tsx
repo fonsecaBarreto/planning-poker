@@ -3,14 +3,18 @@ import type { DefaultEventsMap } from "socket.io/dist/typed-events";
 import type { Socket } from "socket.io-client";
 import { connect } from "~/ws.client";
 
-export let wsContext = createContext<{
-  socket: Socket<DefaultEventsMap, DefaultEventsMap> | null;
-  events: string[];
-  clients: any[],
-}>({ events: [], clients:[], socket: null });
+export let wsContext = createContext(
+  {} as {
+    socket: Socket<DefaultEventsMap, DefaultEventsMap> | null;
+    events: string[];
+    clients: any[];
+    socketId: string;
+  }
+);
 const { Provider } = wsContext
 
 export function WsProvider({ children }: { children: React.ReactNode }): any {
+  const [ socketId, setSocketId ]= useState("");
   const [ clients, setClients ] = useState([])
   const [events, setEvents] = useState<string[]>([]);
   let [socket, setSocket] = useState<Socket<
@@ -29,6 +33,7 @@ export function WsProvider({ children }: { children: React.ReactNode }): any {
   useEffect(() => {
     if (!socket) return;
     socket.on("update_clients", (data) => {
+      setSocketId(data.id);
       setClients(data.payload);
     });
     socket.on("event", (data) => {
@@ -41,9 +46,10 @@ export function WsProvider({ children }: { children: React.ReactNode }): any {
     () => ({
       socket,
       events,
-      clients
+      clients,
+      socketId
     }),
-    [socket, events, clients]
+    [socket, events, clients, socketId]
   );
 
 
