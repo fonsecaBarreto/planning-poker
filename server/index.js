@@ -8,15 +8,14 @@ io.on("connection", (socket) => {
 
   console.log("novo client connected -> ", socket.id, );
 
-  // event to the client called `event` with a simple message
   socket.emit("event", "connected!");
 
   // and I start listening for the event `something`
-  socket.on("something", (data) => {
+  socket.on("message", (data) => {
     // log the data together with the socket.id who send it
     console.log(socket.id, data);
     // and emeit the event again with the message pong
-    socket.emit("event", "pong");
+    io.emit("event", data);
   });
 });
 
