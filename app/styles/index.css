@@ -14,8 +14,9 @@
 }
 
 body {
-  background-image: url(../../public/imgs/cards.jpg);
+  background-image: url(../../public/imgs/cards.webp);
   background-size: cover;
+  background-position: center;
   overflow: hidden;
   z-index: 1;
 }
