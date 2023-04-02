@@ -44,26 +44,9 @@ export default function Task() {
       <h4 className="text-1xl">{task.description}</h4>
       <br/>
 
-      <Cards total={5}/>
+      <Cards values={[...Array(6)].map((_,i)=>(i))}/>
 
-      {/* <Form method="post">
-        <label>
-          1<input type="radio" name="punctuation" value="1"></input>
-        </label>
-        <label>
-          2<input type="radio" name="punctuation" value="2"></input>
-        </label>
-        <label>
-          3<input type="radio" name="punctuation" value="3"></input>
-        </label>
-        <label>
-          4<input type="radio" name="punctuation" value="4"></input>
-        </label>
-        <button type="submit" disabled={iveVoted}>
-          {" "}
-          {iveVoted ? "Ja pontuou" : "pontuar"}
-        </button>
-      </Form> */}
+
 
       <h3> pontos: </h3>
       {JSON.stringify({ ponots: task.punctuations.map((p) => p.value) })}

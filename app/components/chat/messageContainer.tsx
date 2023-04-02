@@ -2,7 +2,7 @@ export function MessageContainer ({ socketId, message }: any)  {
   const { from, payload } = message;
   const itsMe = from === socketId;
   return (
-    <div className="message-container" style={{ backgroundColor: itsMe ?'#dfd' : '#edd' }}>
+    <div className="message-container" style={{ color: itsMe ?'#0a2fab' : '#aa0606' }}>
       <span>
         {socketId} - {from == socketId ? "Você" : from}
       </span>

@@ -1,16 +1,26 @@
+import { useState } from "react"
+
 export type CardsProps = {
-    total: number
+    values: number[]
 }
 
 export const Cards: React.FunctionComponent<CardsProps> = (props) => {
-    const { total } = props
+    const { values } = props
+    const [ selected, setSelected ]= useState(null);
     return (
       <div className="cards-table">
         <ul>
-          {[...Array(total)].map((_, i) => {
-            return <li key={i}> Carta {i}</li>;
+          {values.map((v, i) => {
+            return (
+              <li key={i} onClick={() => setSelected(v)}>
+                <div className="table-card">
+                  <span> {v}</span>
+                </div>
+              </li>
+            );
           })}
         </ul>
+        {JSON.stringify(selected)}
       </div>
     );
 }
