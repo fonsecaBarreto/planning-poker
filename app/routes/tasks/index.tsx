@@ -35,7 +35,7 @@ export default function Tasks() {
       </Form>
       <nav className="task-list">
         {tasks.map((t: any) => (
-          <TaksItem> {t.description} </TaksItem>
+          <TaksItem id={t.id} description={t.description} />
         ))}
       </nav>
       <Outlet />

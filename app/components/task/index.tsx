@@ -1,9 +1,10 @@
+import { Link } from "@remix-run/react";
 import styles from "~/components/task/task.css";
 
-export function TaksItem ({ children }: any)  {
+export function TaksItem ({ id, description }: any)  {
     return (
       <div className="task-item">
-        <span>{children}</span>
+        <Link to={id}>{description}</Link>
       </div>
     );
   };

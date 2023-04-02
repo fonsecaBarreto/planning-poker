@@ -15,3 +15,7 @@ export function createTask(dto: Pick<Task, "description">) {
   return db.task.create({ data: { description, punctuation: 0 } });
 }
 
+export function punctuate({userId, taskId, punctuation}: any){
+
+  return db.taskPunctuations.create({ data: { userId, taskId, value: punctuation } });
+}
