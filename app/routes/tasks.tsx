@@ -39,15 +39,17 @@ export default function Tasks() {
     <div className="poker-layout ">
       <header>
         <div className="container">
-          <Link to="/"> Voltar </Link>
-          <p>{user.nickName}</p>
-          <Form action="/logout" method="post">
-            <button
-              type="submit"
-              className="rounded bg-slate-600 px-4 py-2 text-blue-100 hover:bg-blue-500 active:bg-blue-600"
-            >
-              Logout
-            </button>
+          <Link className="back-button" to="/">&#8249; </Link>
+          <Form className="logout-button" action="/logout" method="post">
+            <label>
+              <p>{user.nickName}</p>
+              <button
+                type="submit"
+                className="rounded bg-slate-600 px-4 py-2 text-blue-100 hover:bg-blue-500 active:bg-blue-600"
+                >
+                &#10162;
+              </button>
+            </label>
           </Form>
         </div>
       </header>
@@ -89,6 +91,8 @@ export default function Tasks() {
           <Outlet context={{user}} />
         </div>
       </main>
+
+      <footer></footer>
     </div>
   );
 }
@@ -99,10 +103,10 @@ export const meta: V2_MetaFunction = () => {
 
 export function links() {
   return [
-    {
+/*     {
       rel: "stylesheet",
       href: indexStylesUrl,
-    },
+    }, */
     {
       rel: "stylesheet",
       href: tasksStylesUrl,

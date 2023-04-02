@@ -1,6 +1,160 @@
+
+/* header */
+.poker-layout > header{
+    background-image: radial-gradient(circle,#f26751ff 0%,#F45C43dd 35%, #EB3349 100%);
+}
+
+.poker-layout > header > div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    font-weight: bold;
+}
+
+.poker-layout > header form{
+   width: 100px
+}
+
+.back-button{
+    font-size: 40px;
+    line-height: .6em;
+    font-weight: bold;
+    text-decoration: none;
+    color: white!important;
+    width: 64px;
+    height: 32px;
+    overflow: hidden;
+    border-radius: 2px;
+    border: solid 1px #ddd;
+    border-radius: 6px;
+    text-align: center;
+}
+
+
+/* main */
+
+.poker-layout > main{
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    margin-top: 64px;
+    gap: 16px;
+    grid-template-areas: 'aside main';
+
+}   
+
+.poker-layout > main > aside{
+    grid-area: aside;
+}   
+
+
+.poker-layout > main > div{
+    grid-area: main;
+
+}   
+
+/* users */
+
+.users-list{
+
+}
+
+.users-list > ul{
+    padding: 0;
+}
+
+.users-list > ul > li{
+    text-decoration: none;
+    list-style-type: none;
+    margin-bottom: 2px;
+    font-size: 16px;
+}
+
+/* chat */
+
+.chat-container{
+    height: 460px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border: solid 1px #ddd;
+    border-radius: 6px;
+    padding: 4px;
+}
+
+.chat-container form {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0;
+    margin-top: auto;
+
+}
+
+.chat-container form > label{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+}
+
+.chat-container form input{
+    height: 36px;
+    width: 100%;
+}
+
+.message-container{
+    max-width: 100%;
+    border-radius:4px;
+    padding: 2px 6px;
+    font-size: 14px;
+    background-color: rgb(47, 255, 102);
+    text-decoration: none;
+    width: fit-content;
+    word-wrap: break-word;
+}
+
+.message-container > span:nth-child(1){
+    color: #888;
+    font-size: 10px;
+    line-height: 10px;
+}
+
+@media screen and (max-width: 1024px) {
+    .poker-layout > main{
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-template-areas: 'main' 'aside';
+
+    }   
+}
 .task-list {
     gap: 12px;
     display: flex;
     flex-direction: column;
     padding: 12px 0;
+}
+
+/* will become a component */
+
+.logout-button > label{
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+}
+
+.logout-button > label > button{
+    border: none;
+    width: 42px;
+    height: 32px;
+    border-radius: 22px;
+    color: white;
+    font-size: 22px;
+    background-color: rgba(255, 255, 255, 0.232);
 }

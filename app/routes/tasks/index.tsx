@@ -34,7 +34,7 @@ export default function Tasks() {
       <Form method="post">
         <label>
           <textarea name="description" placeholder="Descrição" />
-          <button type="submit">Enviar</button>
+          <button className="button" type="submit">Enviar</button>
         </label>
       </Form>
       <nav className="task-list">
