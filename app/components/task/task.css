@@ -1,5 +1,8 @@
 .task-item {
-  border: solid 2px;
-  padding: 12px;
   border-radius: 4px;
+}
+.task-item:hover {
+  filter: brightness(1.1);
+  background-color: #f267512f;
+  transition: all .025s;
 }

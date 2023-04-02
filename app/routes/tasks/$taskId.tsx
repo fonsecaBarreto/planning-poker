@@ -1,6 +1,7 @@
 import { ActionArgs, json, LoaderArgs, redirect } from "@remix-run/node";
 import { Form, useLoaderData, useOutletContext } from "@remix-run/react";
 import { useMemo } from "react";
+import { Cards } from "~/components/cards";
 import { getTaskById, punctuate } from "~/models/task.server";
 import { requireUser } from "~/session.server";
 
@@ -39,10 +40,13 @@ export default function Task() {
  
   return (
     <div>
-      <h3> O que estamos votando? </h3>
-      <h4>{task.description}</h4>
+      <h1 className="text-3xl font-bold">  O que estamos votando?</h1>
+      <h4 className="text-1xl">{task.description}</h4>
+      <br/>
 
-      <Form method="post">
+      <Cards total={5}/>
+
+      {/* <Form method="post">
         <label>
           1<input type="radio" name="punctuation" value="1"></input>
         </label>
@@ -59,7 +63,7 @@ export default function Task() {
           {" "}
           {iveVoted ? "Ja pontuou" : "pontuar"}
         </button>
-      </Form>
+      </Form> */}
 
       <h3> pontos: </h3>
       {JSON.stringify({ ponots: task.punctuations.map((p) => p.value) })}
