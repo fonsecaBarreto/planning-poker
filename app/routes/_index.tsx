@@ -15,7 +15,7 @@ export default function Index() {
         <br />
         <ul>
           <li>
-            <Link to="poker" className="button">
+            <Link to="tasks" className="button">
               Iniciar
             </Link>
           </li>

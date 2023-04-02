@@ -16,7 +16,13 @@ export async function loader({ request }: LoaderArgs) {
   return json({ user });
 }
 
-export default function Poker() {
+
+export async function action({ request }: LoaderArgs) {
+  console.log("NEW TAKSJ")
+  return json({  });
+}
+
+export default function Tasks() {
   const [result, setResult] = useState(0);
   const { socket, socketId, clients, messages } = useContext(wsContext);
   const { user } = useLoaderData<typeof loader>();
@@ -70,7 +76,10 @@ export default function Poker() {
           <section className="chat-container">
             <MessageContainer
               socketId={socketId}
-              message={{ payload: "asdasddwewqehqwdhsaksajaskdajk dhjaksdhkjasdjhasjkdsakjdaksjas" }}
+              message={{
+                payload:
+                  "asdasddwewqehqwdhsaksajaskdajk dhjaksdhkjasdjhasjkdsakjdaksjas",
+              }}
             />
             {orderedMesssage.map((msg: any) => (
               <MessageContainer socketId={socketId} message={msg} />
@@ -86,6 +95,12 @@ export default function Poker() {
 
         <div>
           <h3> Criar uma nova tarefa</h3>
+          <Form method="post">
+            <label>
+              <input name="description" placeholder="Descrição" />
+              <button type="submit">Enviar</button>
+            </label>
+          </Form>
         </div>
       </main>
     </div>
