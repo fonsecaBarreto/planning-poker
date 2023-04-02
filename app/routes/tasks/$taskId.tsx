@@ -3,11 +3,14 @@ import { ActionArgs, json, LoaderArgs, redirect } from "@remix-run/node";
 import {
   Form,
   useActionData,
+  useFormAction,
   useLoaderData,
+  useNavigate,
   useOutletContext,
 } from "@remix-run/react";
-import { useMemo } from "react";
+import { useContext, useEffect, useMemo, useTransition } from "react";
 import PunctuationForm from "~/components/task/PuctuationFom";
+import { wsContext } from "~/contexts/WebSocket";
 import { open, close, getTaskById, punctuate } from "~/models/task.server";
 import { requireUser } from "~/session.server";
 
@@ -17,7 +20,8 @@ export async function action({ request, params }: ActionArgs) {
   const user = await requireUser(request);
   const form = await request.formData();
 
-  switch (form.get("action")) {
+  const _action = form.get('action');
+  switch (_action) {
     case "punctuate":
       {
         const punctuation = form.get("punctuation") + "";
@@ -34,6 +38,11 @@ export async function action({ request, params }: ActionArgs) {
             userId: user.id,
             taskId,
           });
+
+          return json(
+            { action: _action },
+            { status: 200 }
+          );
         } catch (err) {
           return json(
             { errors: { title: "Voce já votou", body: null } },
@@ -41,23 +50,44 @@ export async function action({ request, params }: ActionArgs) {
           );
         }
       }
-    break;
     case "close":
         await close({ taskId });
-    break;
+        return json(
+          { action: _action },
+          { status: 200 }
+        );
     case "clear_punctuation":
         await open({ taskId });
-    break;
+        return json(
+          { action: _action },
+          { status: 200 }
+        );
     default: {
       throw new Error("Unknown action");
     }
   }
-  return redirect(`/tasks/${params.taskId}`);
 }
 
 export default function Task() {
   const { task } = useLoaderData<typeof loader>();
+  const result = useActionData();
   const { user } = useOutletContext<any>();
+  const { socket } = useContext(wsContext);
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!result) return;
+    if (result?.action) {
+      socket?.emit("update_task");
+    }
+  }, [result]);
+
+  useEffect(() => {
+    if (!socket) return;
+    socket.on('UPDATE_TASK', () =>{
+      navigate('.', { replace: true })
+    })
+  }, [socket]);
 
   const myLastVote = useMemo(() => {
     if (!user || !task) return null;

@@ -39,7 +39,7 @@ export default function Tasks() {
     <div className="poker-layout ">
       <header>
         <div className="container">
-          <Link className="back-button" to="/">
+          <Link className="back-button" to="/tasks">
             &#8249;
           </Link>
           <Form className="logout-button" action="/logout" method="post">

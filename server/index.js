@@ -34,6 +34,10 @@ io.on("connection", (socket) => {
     io.emit("UPDATE_USERS", SocketResponse(socket, sockets));
   });
 
+  socket.on("update_task", () => {
+    socket.broadcast.emit("UPDATE_TASK", SocketResponse(socket));
+  });
+
   socket.on("disconnect", (reason) => {
     sockets= sockets.filter(s=>(s.socketId != socket.id))
     io.emit("UPDATE_USERS",  SocketResponse(socket, sockets));
