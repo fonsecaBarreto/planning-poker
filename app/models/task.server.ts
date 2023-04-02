@@ -7,7 +7,7 @@ export function getTasks(): any{
 }
 
 export function getTaskById(taskId: string): any{
-  return db.task.findFirst({ where: { id: taskId} });
+  return db.task.findFirst({ where: { id: taskId}, include: { punctuations: true} });
 }
 
 export function createTask(dto: Pick<Task, "description">) {

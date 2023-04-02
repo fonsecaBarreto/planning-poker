@@ -3,6 +3,7 @@ import {
   Form,
   Outlet,
   useLoaderData,
+  useOutletContext,
 } from "@remix-run/react";
 
 import { createTask, getTasks } from "~/models/task.server";
@@ -23,6 +24,9 @@ export async function action({ request }: ActionArgs) {
 
 export default function Tasks() {
   const { tasks } = useLoaderData<typeof loader>();
+  const parent = useOutletContext();
+
+  console.log("parents", parent);
 
   return (
     <div>

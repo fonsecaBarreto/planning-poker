@@ -86,7 +86,7 @@ export default function Tasks() {
         </aside>
 
         <div>
-          <Outlet />
+          <Outlet context={{user}} />
         </div>
       </main>
     </div>
