@@ -40,7 +40,7 @@ export default function Tasks() {
       <header>
         <div className="container">
           <Link className="back-button" to="/">
-            &#8249;{" "}
+            &#8249;
           </Link>
           <Form className="logout-button" action="/logout" method="post">
             <label>
