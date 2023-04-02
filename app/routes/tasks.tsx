@@ -56,23 +56,24 @@ export default function Tasks() {
 
       <main className="container">
         <aside>
-          <div className="users-list">
-            <h3>Usuarios:</h3>
-            <ul>
+          <section className="users-list">
+            <h4 className="text-1xl">Usuarios ativos:</h4>
+
+            <ul role="list">
               {/* &#128308;  */}
               {clients.map((client) => (
                 <li> &#128994; {client?.user?.nickName ?? "Anonimo"}</li>
               ))}
             </ul>
-          </div>
+          </section>
 
-          <h3> Chat </h3>
           <section className="chat-container">
+            <h4 className="text-1xl"> Chat: </h4>
             <MessageContainer
               socketId={socketId}
               message={{
                 payload:
-                  "asdasddwewqehqwdhsaksajaskdajk dhjaksdhkjasdjhasjkdsakjdaksjas",
+                  "Bem-vindo! Diga algo de interessante...",
               }}
             />
             {messages.map((msg: any) => (

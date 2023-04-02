@@ -12,6 +12,11 @@ import { UserProvider } from "./contexts/User";
 import { json, LinksFunction, LoaderArgs } from "@remix-run/node";
 import globalStylesUrl from "./styles/global.css";
 
+import tailwind from "~/tailwind.css";
+
+
+
+
 export default function App() {
   return (
     <html lang="en">
@@ -38,9 +43,7 @@ export default function App() {
 
 export const links: LinksFunction = () => {
   return [
-    {
-      rel: "stylesheet",
-      href: globalStylesUrl,
-    }
+    { rel: "stylesheet", href: globalStylesUrl },
+    { rel: "stylesheet", href: tailwind },
   ];
 };

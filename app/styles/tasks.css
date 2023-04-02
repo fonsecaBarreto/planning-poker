@@ -1,7 +1,10 @@
-
 /* header */
 .poker-layout > header{
-    background-image: radial-gradient(circle,#f26751ff 0%,#F45C43dd 35%, #EB3349 100%);
+    position: sticky;
+    top: 0;
+    background-image: radial-gradient(circle,#f26751ff 0%,#F45C43ff 35%, #EB3349 100%);
+    z-index: 99;
+    box-shadow: 2px 1px #0004;
 }
 
 .poker-layout > header > div{
@@ -11,10 +14,7 @@
     justify-content: space-between;
     color: white;
     font-weight: bold;
-}
-
-.poker-layout > header form{
-   width: 100px
+    height: 64px;
 }
 
 .back-button{
@@ -33,6 +33,27 @@
 }
 
 
+.logout-button > label{
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+}
+
+.logout-button > label > button{
+    display: flex;
+    border: none;
+    width: 42px;
+    height: 32px;
+    border-radius: 22px;
+    color: white;
+    font-size: 22px;
+    line-height: .7em;
+    background-color: rgba(255, 255, 255, 0.232);
+}
+
+
 /* main */
 
 .poker-layout > main{
@@ -46,6 +67,9 @@
 
 .poker-layout > main > aside{
     grid-area: aside;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }   
 
 
@@ -54,7 +78,6 @@
 
 }   
 
-/* users */
 
 .users-list{
 
@@ -139,22 +162,54 @@
     padding: 12px 0;
 }
 
-/* will become a component */
-
-.logout-button > label{
+.new-task-form > fieldset{
     display: flex;
+    flex-direction: row;
     gap: 4px;
-    align-items: center;
-    justify-content: flex-start;
-    cursor: pointer;
+}
+.new-task-form textarea{
+    width: 100%;
 }
 
-.logout-button > label > button{
-    border: none;
-    width: 42px;
-    height: 32px;
-    border-radius: 22px;
-    color: white;
-    font-size: 22px;
-    background-color: rgba(255, 255, 255, 0.232);
+
+/* cards */
+.cards-table{
+    border: solid 2px red;
+    width: 100%;
+    perspective: 999px;
+    overflow: hidden;
+
+}
+
+.cards-table > ul{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px;
+    border: solid 2px red;
+    transform: rotateX(45deg);
+
+}
+
+.cards-table > ul > li{
+    position: relative;
+    border: solid 2px red;
+    width: 25%;
+    height: 0;
+    padding-bottom: 25%;
+    cursor: pointer;
+}
+.cards-table > ul > li:hover{
+    position: relative;
+    border: solid 2px red;
+    width: 25%;
+    height: 0;
+    padding-bottom: 25%;
+    transform: translateY(-16px);
+    transition: all .1s;
+    box-shadow: 0px 16px 10px #00000556;
 }
