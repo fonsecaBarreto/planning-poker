@@ -6,9 +6,9 @@ export default function Index() {
   return (
     <div className="index-layout">
       <h1>
-        LolDesign©
+        <small> Lucas Fonseca | Fck© </small>
         <span>
-          Planning <br /> p&#10084;ker
+          Planning <br /> p<i style={{fontSize: 148}}>&clubs;</i>ker
         </span>
       </h1>
       <nav>
