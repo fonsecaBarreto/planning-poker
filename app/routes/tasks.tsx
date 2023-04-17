@@ -11,7 +11,6 @@ import { useContext, useEffect } from "react";
 import { wsContext } from "~/contexts/WebSocket";
 import { MessageContainer } from "~/components/chat/messageContainer";
 // css
-import indexStylesUrl from "~/styles/poker.css";
 import tasksStylesUrl from "~/styles/tasks.css";
 
 export async function loader({ request }: LoaderArgs) {

@@ -29,12 +29,17 @@ export default function IndexLogin() {
       <>
         <Form className="login-form" method="post">
           <label>
-            Apelido:
-            <input name="nickName" placeholder="Seu nome aqui" />
+            <span> Nome: </span>
+            <input type="text" name="nickName" placeholder="Seu nome aqui" />
           </label>
-          <button type="submit">Enviar</button>
+          <button
+            className="rounded bg-slate-600 px-4 py-2 text-blue-100 hover:bg-blue-500 active:bg-blue-600"
+            type="submit"
+          >
+            Enviar
+          </button>
+          <Link className="back-btn" to="/">Votlar</Link>
         </Form>
-        <Link to="/">Votlar</Link>
       </>
     </div>
   );
