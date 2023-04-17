@@ -9,7 +9,7 @@ export const Cards: React.FunctionComponent<CardsProps> = (props) => {
   const { values, block =false} = props;
 
   const observableCards = useMemo(()=>{
-    return [ ...values, 0, 0, 0];
+    return [ ...values, 0];
   },[ values])
   return (
     <>
@@ -19,7 +19,7 @@ export const Cards: React.FunctionComponent<CardsProps> = (props) => {
             return (
               <li key={i}>
                 <div className={`table-card  ${v != 0 ? "filled" : ""}`}>
-                  <span> {v == 0 ? "" : v}</span>
+                  <span> {v == 0 ? "+" : v}</span>
                 </div>
               </li>
             );

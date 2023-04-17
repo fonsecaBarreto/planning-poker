@@ -135,7 +135,6 @@
     gap: 2px;
     border-radius: 6px;
     padding: 4px;
-    border: solid 2px red;
     border: solid 1px #ddd;
 }
 
@@ -205,6 +204,22 @@
 }
 
 
+/* taks page */
+#task-page{
+    border: solid 1px red;
+}
+
+#task-page > header{
+    display: grid;
+    grid-template-columns: 1fr auto;
+}
+
+#task-page > main{
+    border: solid 1px red;
+    padding: 120px 0;
+
+}
+
 /* puncation form */
 
 .punctation-form-container{
@@ -252,15 +267,15 @@
     padding: 32px;
     border-radius: 12px;
     border: dashed 1px #ddd;
-    background-color: rgba(92, 22, 68, 0.5);
+    background-color: rgba(98, 114, 138, 0.4);
     min-height: 300px;
 }
 
 .cards-table > ul > li{
     position: relative;
-    width: 20%;
+    width: 16%;
     height: 0;
-    padding-bottom: 25%;
+    padding-bottom: 22%;
     cursor: pointer;
     transition: all .1s;
 }

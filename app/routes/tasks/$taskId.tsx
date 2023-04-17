@@ -104,16 +104,36 @@ export default function Task() {
   
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold"> O que estamos votando?</h1>
-      <h4 className="text-1xl">{task.description}</h4>
-      <br />
+    <div id="task-page">
+      <header>
+        <section>
+          <h1 className="text-3xl font-bold"> O que estamos votando?</h1>
+          <h4 className="text-1xl">{task.description}</h4>
+        </section>
 
-      <Cards
-        onChange={(v) => {}}
-        values={task.punctuations.map((v: any) => v.value)}
-        block={myLastVote !== null}
-      />
+        <Form method="post">
+          <input
+            type="hidden"
+            name="action"
+            value={task.isClosed ? "clear_punctuation" : "close"}
+          />
+          <button
+            type="submit"
+            className="rounded bg-rose-700 px-4 py-2 text-rose-100 hover:bg-blue-500 active:bg-rose-600"
+          >
+            {task.isClosed ? "Refazer" : "Fechar"}
+          </button>
+        </Form>
+        <br />
+      </header>
+
+      <main>
+        <Cards
+          onChange={(v) => {}}
+          values={task.punctuations.map((v: any) => v.value)}
+          block={myLastVote !== null}
+        />
+      </main>
 
       {task.isClosed && (
         <>
@@ -124,19 +144,7 @@ export default function Task() {
         </>
       )}
 
-      <Form method="post">
-        <input type="hidden" name="action" value={ task.isClosed  ? "clear_punctuation": "close"} />
-        <button
-          type="submit"
-          className="rounded bg-rose-700 px-4 py-2 text-rose-100 hover:bg-blue-500 active:bg-rose-600"
-        >
-
-          {task.isClosed  ? "Refazer": "Fechar"}
-        </button>
-      </Form>
-
       <PunctuationForm defaultValue={myLastVote} />
-      <hr />
     </div>
   );
 }
