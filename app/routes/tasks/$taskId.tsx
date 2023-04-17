@@ -1,4 +1,4 @@
-import { ActionArgs, json, LoaderArgs, redirect } from "@remix-run/node";
+import { ActionArgs, json, LoaderArgs } from "@remix-run/node";
 import {
   Form,
   useActionData,
@@ -8,6 +8,7 @@ import {
 } from "@remix-run/react";
 import { useContext, useEffect, useMemo } from "react";
 import PunctuationForm, { links as punctuationLinks }from "~/components/task/PuctuationFom";
+import { Cards } from "~/components/task/Table/cards";
 import { wsContext } from "~/contexts/WebSocket";
 import { open, close, getTaskById, punctuate } from "~/models/task.server";
 import { requireUser } from "~/session.server";
@@ -17,7 +18,7 @@ export async function action({ request, params }: ActionArgs) {
   const taskId = params.taskId + "";
   const user = await requireUser(request);
   const form = await request.formData();
-
+  
   const _action = form.get('action');
   switch (_action) {
     case "punctuate":
@@ -43,8 +44,8 @@ export async function action({ request, params }: ActionArgs) {
           );
         } catch (err) {
           return json(
-            { errors: { title: "Voce já votou", body: null } },
-            { status: 403 }
+            { errors: { title: "Algo errado", body: null } },
+            { status: 500 }
           );
         }
       }
@@ -100,6 +101,7 @@ export default function Task() {
     const media  = total /  task.punctuations.length
     return ({ total, media })
   },[ task])
+  
 
   return (
     <div>
@@ -107,35 +109,34 @@ export default function Task() {
       <h4 className="text-1xl">{task.description}</h4>
       <br />
 
-      {task.isClosed ? (
+      <Cards
+        onChange={(v) => {}}
+        values={task.punctuations.map((v: any) => v.value)}
+        block={myLastVote !== null}
+      />
+
+      {task.isClosed && (
         <>
           <h3> Resultado: </h3>
           <h4> {resultado?.total}</h4>
           <h3> Media: </h3>
           <h4> {resultado?.media}</h4>
-
-          <Form method="post">
-            <input type="hidden" name="action" value="clear_punctuation" />
-            <button
-              type="submit"
-              className="rounded bg-rose-700 px-4 py-2 text-rose-100 hover:bg-blue-500 active:bg-rose-600"
-            >
-              Refazer
-            </button>
-          </Form>
-        </>
-      ) : (
-        <>
-          <PunctuationForm defaultValue={myLastVote} />
-          <h3> votos: </h3>
-          <ul>
-            {task.punctuations.map((p: any, i: number) => (
-              <li key={i}>{p.user.nickName}: {p.value}</li>
-            ))}
-          </ul>
-          <hr />
         </>
       )}
+
+      <Form method="post">
+        <input type="hidden" name="action" value={ task.isClosed  ? "clear_punctuation": "close"} />
+        <button
+          type="submit"
+          className="rounded bg-rose-700 px-4 py-2 text-rose-100 hover:bg-blue-500 active:bg-rose-600"
+        >
+
+          {task.isClosed  ? "Refazer": "Fechar"}
+        </button>
+      </Form>
+
+      <PunctuationForm defaultValue={myLastVote} />
+      <hr />
     </div>
   );
 }

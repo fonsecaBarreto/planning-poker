@@ -17,7 +17,17 @@ export async function createTask(dto: Pick<Task, "description">): Promise<Task> 
 }
 
 export function punctuate({userId, taskId, punctuation}: any): Promise<any>{
-  return db.taskPunctuations.create({ data: { userId, taskId, value: punctuation } });
+  return db.taskPunctuations.upsert({
+    where: { taskId_userId: { taskId, userId} },
+    update: {
+      value: punctuation,
+    },
+    create: {
+      userId,
+      taskId,
+      value: punctuation,
+    },
+  });
 }
 
 export async function close({taskId}: any): Promise<void>{

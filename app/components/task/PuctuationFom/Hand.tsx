@@ -7,6 +7,7 @@ export type CardsProps = {
 
 export const Hand: React.FunctionComponent<CardsProps> = (props) => {
   const { values, onChange, value, block =false} = props;
+
   return (
     <>
       <div className={`cards-hand ${block ? "block" : ""}`}>
