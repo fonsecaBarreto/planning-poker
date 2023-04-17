@@ -54,22 +54,51 @@
 }
 
 
+/* aside */
+.poker-layout > aside{
+    position: fixed;
+    top: 64px;
+    right: 0;
+    width: 320px;
+    height: calc(100vh - 64px);
+    z-index: 99;
+    box-shadow: -1px 2px 8px #0005;
+    background-color: white;
+    margin-right: -256px;
+    transition: all .2s cubic-bezier(0.19, 1, 0.22, 1);
+    padding-bottom: calc(2rem + 64px);
+}
+
+.poker-layout > aside.aside-open{
+    margin-right: 0;
+}
+
+
+.poker-layout > aside > :nth-child(1){
+    z-index: 1;
+}
+
+.poker-layout > aside > button.aside-float-button{
+    position: absolute;
+    bottom: 1rem;
+    left: -32px;
+    width: 64px;
+    height: 64px;
+    border-radius: 32px;
+    background-image: radial-gradient(circle,#f26751ff 0%,#F45C43ff 35%, #EB3349 100%);
+    z-index: -1;
+}
+
+
 /* main */
 
 .poker-layout > main{
     display: grid;
-    grid-template-columns: 1fr 320px ;
+    grid-template-columns: 1fr ;
     margin-top: 64px;
     gap: 16px;
-    grid-template-areas: 'main aside';
+    grid-template-areas: 'main';
 
-}   
-
-.poker-layout > main > aside{
-    grid-area: aside;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
 }   
 
 
@@ -78,10 +107,6 @@
 
 }   
 
-
-.users-list{
-
-}
 
 .users-list > ul{
     padding: 0;

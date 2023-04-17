@@ -1,0 +1,16 @@
+.app-side-bar{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 2fr;
+    height: 100%;
+    width: 100%;
+    padding: 1rem;
+}
+
+.app-side-bar > section{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+}

@@ -4,14 +4,15 @@ import {
   Link,
   Outlet,
   useLoaderData,
-  useNavigation,
 } from "@remix-run/react";
 import { requireUser } from "~/session.server";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { wsContext } from "~/contexts/WebSocket";
-import { MessageContainer } from "~/components/chat/messageContainer";
 // css
 import tasksStylesUrl from "~/styles/tasks.css";
+/* SIDEBAR */
+import { SideBar } from "~/components/sidebar";
+import sideBarStylesUrl from "~/components/sidebar/styles.css";
 
 export async function loader({ request }: LoaderArgs) {
   const user = await requireUser(request);
@@ -20,19 +21,13 @@ export async function loader({ request }: LoaderArgs) {
 
 export default function Tasks() {
   const { user } = useLoaderData<typeof loader>();
-  const { socket, socketId, clients, messages } = useContext(wsContext);
-  const navigation = useNavigation();
-  const isSubmitting = navigation.state === "submitting";
+  const { socket } = useContext(wsContext);
+
+  const [isAsideOpen, setIsAsideOpen] = useState(true);
 
   useEffect(() => {
     socket?.emit("user_connected", { user });
   }, [user, socket]);
-
-  const handleSendMessage = (e: any) => {
-    e.preventDefault();
-    const message = e.target["message"].value;
-    socket?.emit("event", { action: "MESSAGE", payload: message });
-  };
 
   return (
     <div className="poker-layout ">
@@ -55,41 +50,16 @@ export default function Tasks() {
         </div>
       </header>
 
+      <aside className={`${isAsideOpen ? "aside-open" : ""}`}>
+        <SideBar />
+        <button
+          onClick={()=>setIsAsideOpen(prev=>!prev)} 
+          className="aside-float-button"/>
+      </aside>
+
       <main className="container">
         <aside>
-          <section className="users-list">
-            <h4 className="text-1xl">Usuarios ativos:</h4>
-
-            <ul role="list">
-              {/* &#128308;  */}
-              {clients.map((client) => (
-                <li> &#128994; {client?.user?.nickName ?? "Anonimo"}</li>
-              ))}
-            </ul>
-          </section>
-
-          <section className="chat-container">
-            <h4 className="text-1xl"> Chat: </h4>
-            <ul>
-              <MessageContainer
-                socketId={socketId}
-                message={{
-                  payload: "Bem-vindo! Diga algo de interessante...",
-                }}
-              />
-              {messages.map((msg: any) => (
-                <MessageContainer socketId={socketId} message={msg} />
-              ))}
-            </ul>
-            <Form disabled={isSubmitting} onSubmit={handleSendMessage}>
-              <label>
-                <input name="message" placeholder=" Sua Mensagem aqui" />
-                <button type="submit">Enviar</button>
-              </label>
-            </Form>
-          </section>
         </aside>
-
         <div>
           <Outlet context={{ user }} />
         </div>
@@ -106,10 +76,10 @@ export const meta: V2_MetaFunction = () => {
 
 export function links() {
   return [
-    /*     {
+    {
       rel: "stylesheet",
-      href: indexStylesUrl,
-    }, */
+      href: sideBarStylesUrl,
+    },
     {
       rel: "stylesheet",
       href: tasksStylesUrl,
