@@ -136,15 +136,6 @@ export default function Task() {
             ))}
           </ul>
           <hr />
-          <Form method="post">
-            <input type="hidden" name="action" value="close" />
-            <button
-              type="submit"
-              className="rounded bg-rose-700 px-4 py-2 text-rose-100 hover:bg-blue-500 active:bg-rose-600"
-            >
-              Revelar
-            </button>
-          </Form>
         </>
       )}
     </div>
