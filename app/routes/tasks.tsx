@@ -23,7 +23,7 @@ export default function Tasks() {
   const { user } = useLoaderData<typeof loader>();
   const { socket } = useContext(wsContext);
 
-  const [isAsideOpen, setIsAsideOpen] = useState(true);
+  const [isAsideOpen, setIsAsideOpen] = useState(false);
 
   useEffect(() => {
     socket?.emit("user_connected", { user });
@@ -50,12 +50,12 @@ export default function Tasks() {
         </div>
       </header>
 
-      <aside className={`${isAsideOpen ? "aside-open" : ""}`}>
+    {/*   <aside className={`${isAsideOpen ? "aside-open" : ""}`}>
         <SideBar />
         <button
           onClick={()=>setIsAsideOpen(prev=>!prev)} 
           className="aside-float-button"/>
-      </aside>
+      </aside> */}
 
       <main className="container">
         <aside>

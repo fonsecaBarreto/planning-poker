@@ -1,6 +1,8 @@
 import { Form, useSubmit } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import { Cards } from "./cards";
+import { Hand } from "./Hand";
+import styles from "./styles.css";
 
 export type PunctuationFormProps = {
   defaultValue?: number | null
@@ -37,6 +39,13 @@ export default function PunctuationForm(props: PunctuationFormProps) {
           value={punctuation}
           values={FIBONACCI}
           block={defaultValue !== null}
+        /> 
+
+       <Hand
+          onChange={(v) => setPunctuation(v)}
+          value={punctuation}
+          values={FIBONACCI}
+          block={defaultValue !== null}
         />
         <input
           type="hidden"
@@ -54,3 +63,8 @@ export default function PunctuationForm(props: PunctuationFormProps) {
     </Form>
   );
 }
+
+
+export function links() {
+  return [{ rel: "stylesheet", href: styles }];
+};

@@ -1,15 +1,13 @@
-import { TaskPunctuations } from "@prisma/client";
 import { ActionArgs, json, LoaderArgs, redirect } from "@remix-run/node";
 import {
   Form,
   useActionData,
-  useFormAction,
   useLoaderData,
   useNavigate,
   useOutletContext,
 } from "@remix-run/react";
-import { useContext, useEffect, useMemo, useTransition } from "react";
-import PunctuationForm from "~/components/task/PuctuationFom";
+import { useContext, useEffect, useMemo } from "react";
+import PunctuationForm, { links as punctuationLinks }from "~/components/task/PuctuationFom";
 import { wsContext } from "~/contexts/WebSocket";
 import { open, close, getTaskById, punctuate } from "~/models/task.server";
 import { requireUser } from "~/session.server";
@@ -150,4 +148,10 @@ export async function loader({ request, params }: LoaderArgs) {
     throw new Response("Not Found", { status: 404 });
   }
   return json({ task });
+}
+
+export function links() {
+  return [
+    ...punctuationLinks(),
+  ];
 }
