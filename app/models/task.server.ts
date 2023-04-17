@@ -10,9 +10,10 @@ export function getTaskById(taskId: string): any{
   return db.task.findFirst({ where: { id: taskId}, include: { punctuations: { include: { user: true }}} });
 }
 
-export function createTask(dto: Pick<Task, "description">): Promise<any> {
+export async function createTask(dto: Pick<Task, "description">): Promise<Task> {
   const { description } = dto;
-  return db.task.create({ data: { description } });
+  const task = await db.task.create({ data: { description } });
+  return task
 }
 
 export function punctuate({userId, taskId, punctuation}: any): Promise<any>{

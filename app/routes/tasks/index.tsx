@@ -19,8 +19,8 @@ export async function loader({ request }: LoaderArgs) {
 export async function action({ request }: ActionArgs) {
   const form = await request.formData();
   const description = form.get("description") + "";
-  await createTask({ description });
-  return redirect(`/tasks`);
+  const task = await createTask({ description });
+  return redirect(`/tasks/${task.id}`);
 }
 
 export default function Tasks() {
